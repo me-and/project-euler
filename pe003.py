@@ -61,7 +61,7 @@ def prime_factors(n):
             factors.add(p)
             n //= p
         if p ** 2 > n:
-            if n != 1:
+            if n != 1:  # Happens if the original n was prime.
                 factors.add(n)
             return factors
 
