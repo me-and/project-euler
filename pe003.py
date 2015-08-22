@@ -20,9 +20,9 @@ class prime_generator(object):
     '''Generate primes using an incremental Sieve of Eratosthenes.
 
     Based broadly on the algorithm by Richard Bird described in O'Neill,
-    Melissa E, "The Genuine Sieve of Eratosthenes,
+    Melissa E, "The Genuine Sieve of Eratosthenes!,
     <http://www.cs.hmc.edu/~oneill/papers/Sieve-JFP.pdf>, accessed 21 August
-    2015, and apparently published in the Journal of Functional Prgramming
+    2015, and apparently published in the Journal of Functional Programming
     (2009), 19, pp 95-106, doi: 10.1017/S0956796808007004.
     '''
     def __init__(self, primes=None):
