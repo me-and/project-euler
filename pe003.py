@@ -21,17 +21,11 @@ class prime_generator(object):
     2015, and apparently published in the Journal of Functional Programming
     (2009), 19, pp 95-106, doi: 10.1017/S0956796808007004.
     '''
-    def __init__(self, primes=None):
+    def __init__(self):
         self.composites = defaultdict(list)
-        if primes:
-            self.yield_two = False
-            for prime in primes:
-                self.add_prime(prime)
-            self.prev = max(primes)
-        else:
-            self.yield_two = True
-            self.prev = 2
-            self.add_prime(2)
+        self.yield_two = True
+        self.prev = 2
+        self.add_prime(2)
 
 
     def add_prime(self, n):
