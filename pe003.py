@@ -66,7 +66,9 @@ def prime_factors(n):
         while n % p == 0:
             factors.add(p)
             n //= p
-        if p > n:
+        if p ** 2 > n:
+            if n != 1:
+                factors.add(n)
             return factors
 
 if __name__ == '__main__':
