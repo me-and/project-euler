@@ -26,7 +26,6 @@ class prime_generator(object):
     (2009), 19, pp 95-106, doi: 10.1017/S0956796808007004.
     '''
     def __init__(self, primes=None):
-        self.generators = set()
         self.composites = defaultdict(list)
         if primes:
             self.yield_two = False
@@ -41,7 +40,6 @@ class prime_generator(object):
 
     def add_prime(self, n):
         gen = multiples(n)
-        self.generators.add(gen)
         self.composites[next(gen)].append(gen)
 
     def __next__(self):
