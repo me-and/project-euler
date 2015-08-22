@@ -10,6 +10,7 @@ What is the largest prime factor of the number 600851475143 ?
 from collections import defaultdict
 from math import sqrt
 from itertools import count
+from sys import argv
 
 class prime_generator(object):
     '''Generate primes using an incremental Sieve of Eratosthenes.
@@ -69,4 +70,8 @@ def prime_factors(n):
             return factors
 
 if __name__ == '__main__':
-    print(max(prime_factors(600851475143)))
+    try:
+        target = int(argv[1])
+    except IndexError:
+        target = 600851475143
+    print(max(prime_factors(target)))
