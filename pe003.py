@@ -23,9 +23,7 @@ class prime_generator(object):
     '''
     def __init__(self):
         self.composites = defaultdict(list)
-        self.yield_two = True
-        self.prev = 2
-        self.add_prime(2)
+        self.prev = 1
 
 
     def add_prime(self, n):
@@ -33,11 +31,6 @@ class prime_generator(object):
         self.composites[next(gen)].append(gen)
 
     def __next__(self):
-        if self.yield_two:
-            # Handle 2 as a special case
-            self.yield_two = False
-            return 2
-
         x = self.prev
         while True:
             x += 1
