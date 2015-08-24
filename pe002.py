@@ -22,11 +22,6 @@ def fibonacci(a=1, b=2):
         yield b
 
 
-def even_fibonacci(a=1, b=2):
-    gen = fibonacci(a, b)
-    while True:
-        yield next((x for x in gen if x % 2 == 0))
-
-
 if __name__ == '__main__':
-    print(sum(takewhile(lambda x: x < 4000000, even_fibonacci())))
+    print(sum(takewhile(lambda x: x < 4000000,
+                        (n for n in fibonacci() if n % 2 == 0))))
