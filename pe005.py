@@ -14,6 +14,7 @@ from sys import argv
 
 from pe003 import prime_generator
 
+
 # Very similar to (and should probably be combined with) pe003.prime_factors.
 #
 # Alternatively, fix the inefficiency where we work through the factors one at
@@ -30,6 +31,7 @@ def power_prime_factor(n):
             if n != 1:  # Happens if the original n was prime.
                 factors[n] += 1
             return factors
+
 
 if __name__ == '__main__':
     try:
@@ -48,4 +50,3 @@ if __name__ == '__main__':
     for k in powers:
         total *= k ** powers[k]
     print(total)
-

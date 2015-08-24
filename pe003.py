@@ -12,6 +12,7 @@ from math import sqrt
 from itertools import count
 from sys import argv
 
+
 def prime_generator():
     # This function is an implementation of an incremental Sieve of
     # Eratosthenes, based broadly on the algorithm by Richard Bird, as
@@ -44,6 +45,7 @@ def prime_factors(n):
             if n != 1:  # Happens if the original n was prime.
                 factors.add(n)
             return factors
+
 
 if __name__ == '__main__':
     try:

@@ -10,9 +10,11 @@ Find the largest palindrome made from the product of two 3-digit numbers.
 
 from itertools import combinations_with_replacement
 
+
 def is_palendrome(n):
     string = str(n)
     return string == string[::-1]
+
 
 def products():
     seen = set()
@@ -21,6 +23,7 @@ def products():
         if product not in seen:
             yield product
             seen.add(product)
+
 
 if __name__ == '__main__':
     print(max((n for n in products() if is_palendrome(n))))
