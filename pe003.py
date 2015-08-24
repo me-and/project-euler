@@ -12,39 +12,20 @@ from math import sqrt
 from itertools import count
 from sys import argv
 
-class prime_generator(object):
-    '''Generate primes using an incremental Sieve of Eratosthenes.
+def prime_generator():
+    composites = defaultdict(list)
+    x = 1
+    while True:
+        x += 1
+        if x in composites:
+            gens = composites.pop(x)
+            for gen in gens:
+                composites[next(gen)].append(gen)
+        else:
+            gen = count(x * 2, x)
+            composites[next(gen)].append(gen)
+            yield x
 
-    Based broadly on the algorithm by Richard Bird described in O'Neill,
-    Melissa E, "The Genuine Sieve of Eratosthenes!,
-    <http://www.cs.hmc.edu/~oneill/papers/Sieve-JFP.pdf>, accessed 21 August
-    2015, and apparently published in the Journal of Functional Programming
-    (2009), 19, pp 95-106, doi: 10.1017/S0956796808007004.
-    '''
-    def __init__(self):
-        self.composites = defaultdict(list)
-        self.prev = 1
-
-
-    def add_prime(self, n):
-        gen = count(n * 2, n)
-        self.composites[next(gen)].append(gen)
-
-    def __next__(self):
-        x = self.prev
-        while True:
-            x += 1
-            if x in self.composites:
-                gens = self.composites.pop(x)
-                for gen in gens:
-                    self.composites[next(gen)].append(gen)
-            else:
-                self.add_prime(x)
-                self.prev = x
-                return x
-
-    def __iter__(self):
-        return self
 
 def prime_factors(n):
     factors = set()
