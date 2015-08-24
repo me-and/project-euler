@@ -13,6 +13,12 @@ from itertools import count
 from sys import argv
 
 def prime_generator():
+    # This function is an implementation of an incremental Sieve of
+    # Eratosthenes, based broadly on the algorithm by Richard Bird, as
+    # described in O'Neill, Milssa E, "The Genuine Sieve of Eratosthenes",
+    # <http://www.cs.hmc.edu/~oneill/papers/Sieve-JFP.pdf>, accessed 21 August
+    # 2015, and apparently published in the Journal of Functional Programming
+    # (2009) 19, pp 95-106, doi: 10.1017/S0956796808007004.
     composites = defaultdict(list)
     x = 1
     while True:
