@@ -18,25 +18,26 @@ natural numbers and the square of the sum.
 '''
 from sys import argv
 
-# Expanding the terms shows:
+# The sum of the integers from 1 to n is n(n+1)/2, so the square of the sum is
+# pretty easy to calculate.
 #
-#     (1 + 2 + ... + n)^2 - (1^2 + 2^2 + ... + n^2)
-#         = ((1^2 + 2^2 + ... + n^2)
-#             + 2×((1×2 + 1×3 + ... + 1×n)
-#                 + (2×3 + 2×4 + ... + 2×n)
-#                 + ... + ((n-1)×n))
-#           - (1^2 + 2^2 + ... + n^2)
-#         = 2 × ((1×2 + 1×3 + ... + 1×n)
-#             + (2×3 + 2×4 + ... + 2×n)
-#             + ... + ((n-1) × n)
-#         = 2 × 1 × (2 + 3 + ... + n) +
-#           2 × 2 × (3 + 4 + ... + n) +
-#           ... +
-#           2 × (n-2) × ((n-1) + n) +
-#           2 × (n-1) × n
+# It makes sense, then, that there might be a formula for the sum of the
+# squares.  Take a look at the first few values:
 #
-# Feels like there should be some obvious solution here, but frankly I think
-# the quickest solution is just brute force...
+#     f(0) = 0
+#     f(1) = 1
+#     f(2) = 1 + 4 = 5
+#     f(3) = 1 + 4 + 9 = 14
+#     f(4) = 1 + 4 + 9 + 16 = 30
+#
+# Looks like f(n) = f(n-1) + n^2.  At the suggestion of the overview sheet, it
+# makes sense that f would be quadratic, so just try plugging in some numbers
+# and solving:
+#
+#     f(n) := an^3 + bn^2 + cn + d
+#
+# ...at which point I get bored of the maths, which I can do but just isn't
+# very challenging, and jump to the solution.
 
 if __name__ == '__main__':
     try:
@@ -49,6 +50,6 @@ if __name__ == '__main__':
     # don't need to worry about floats confusing anything.
     square_sum = (target * (target + 1) // 2) ** 2
 
-    sum_square = sum((x ** 2 for x in range(target + 1)))
+    sum_square = target * (2 * target + 1) * (target + 1) //6
 
     print(square_sum - sum_square)
