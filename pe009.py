@@ -13,6 +13,7 @@ There exists exactly one Pythagorean triplet for which a + b + c = 1000.
 Find the product abc.
 '''
 
+
 def is_triplet(a, b, c):
     return a**2 + b**2 == c**2
 
@@ -27,4 +28,3 @@ if __name__ == '__main__':
             if (a < b < c) and (a + b + c == 1000) and is_triplet(a, b, c):
                 print(a * b * c)
                 break
-
