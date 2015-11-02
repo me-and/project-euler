@@ -50,6 +50,6 @@ if __name__ == '__main__':
     # don't need to worry about floats confusing anything.
     square_sum = (target * (target + 1) // 2) ** 2
 
-    sum_square = target * (2 * target + 1) * (target + 1) //6
+    sum_square = target * (2 * target + 1) * (target + 1) // 6
 
     print(square_sum - sum_square)
