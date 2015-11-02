@@ -12,25 +12,7 @@ numbers from 1 to 20?
 from collections import defaultdict
 from sys import argv
 
-from pe003 import prime_generator
-
-
-# Very similar to (and should probably be combined with) pe003.prime_factors.
-#
-# Alternatively, fix the inefficiency where we work through the factors one at
-# a time, meaning the prime generator gets run every time rather than only
-# once.
-def power_prime_factor(n):
-    factors = defaultdict(int)
-    primes = prime_generator()
-    for p in primes:
-        while n % p == 0:
-            factors[p] += 1
-            n //= p
-        if p ** 2 > n:
-            if n != 1:  # Happens if the original n was prime.
-                factors[n] += 1
-            return factors
+from prime import prime_factors
 
 
 if __name__ == '__main__':
@@ -42,7 +24,7 @@ if __name__ == '__main__':
     powers = defaultdict(int)
 
     for n in range(2, target + 1):
-        prime_powers = power_prime_factor(n)
+        prime_powers = prime_factors(n)
         for k in prime_powers:
             powers[k] = max(powers[k], prime_powers[k])
 
