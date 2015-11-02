@@ -10,6 +10,11 @@ def prime_generator():
     '''
     Generate primes reasonably efficiently.
     '''
+
+    # Yield 2 at the start as we'll avoid even numbers in the algorithm
+    # entirely.
+    yield 2
+
     # This function is an implementation of an incremental Sieve of
     # Eratosthenes, based broadly on the algorithm by Richard Bird, as
     # described in O'Neill, Milssa E, "The Genuine Sieve of Eratosthenes",
@@ -19,13 +24,18 @@ def prime_generator():
     composites = defaultdict(list)
     x = 1
     while True:
-        x += 1
+        x += 2
         if x in composites:
             gens = composites.pop(x)
             for gen in gens:
                 composites[next(gen)].append(gen)
         else:
-            gen = count(x * 2, x)
+            # We're avoiding even numbers in this sieve entirely.  Since this
+            # prime will clearly be odd, the generator increments by double the
+            # prime each time, guaranteeing the next number will always be odd
+            # too.  The starting point is thus triple the prime, since we can
+            # do the first increment immediately.
+            gen = count(x * 3, x * 2)
             composites[next(gen)].append(gen)
             yield x
 
