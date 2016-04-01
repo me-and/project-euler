@@ -22,9 +22,7 @@ def prime_generator():
     # 2015, and apparently published in the Journal of Functional Programming
     # (2009) 19, pp 95-106, doi: 10.1017/S0956796808007004.
     composites = defaultdict(list)
-    x = 1
-    while True:
-        x += 2
+    for x in count(3, step=2):
         if x in composites:
             gens = composites.pop(x)
             for gen in gens:
