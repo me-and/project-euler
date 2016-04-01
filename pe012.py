@@ -22,33 +22,26 @@ What is the value of the first triangle number to have over five hundred
 divisors?
 '''
 
+from functools import reduce
 from itertools import count
 from math import sqrt
 from sys import argv
+
+from prime import prime_factors_seed
 
 
 def triangle(x):
     return (x * (x + 1)) // 2
 
 
-def divisors(x):
-    # Based broadly on http://stackoverflow.com/a/171779/220155
-    for i in range(1, int(sqrt(x) + 1)):
-        if x % i == 0:
-            yield i
-            if i * i != x:
-                yield x // i
-
-
-def generator_len(gen):
-    length = 0
-    for _ in gen:
-        length += 1
-    return length
-
-
-def num_divisors(x):
-    return generator_len(divisors(x))
+def num_divisors(x, pg_seed=None):
+    # Based on http://mathschallenge.net/index.php?section=faq&ref=number/number_of_divisors
+    prime_factors, pg_seed = prime_factors_seed(x, pg_seed,
+                                                preserve_seed=False)
+    return (reduce(lambda x, y: x * (y + 1),
+                   prime_factors.values(),
+                   1),
+            pg_seed)
 
 
 if __name__ == '__main__':
@@ -57,8 +50,12 @@ if __name__ == '__main__':
     except IndexError:
         goal = 500
 
-    for i in count(1):
+    pg_seed = None
+
+    # Start at 2, since num_divisors doesn't work with 1.
+    for i in count(2):
         num = triangle(i)
-        if num_divisors(num) > goal:
+        divisors, pg_seed = num_divisors(num, pg_seed)
+        if divisors > goal:
             print(num)
             break
