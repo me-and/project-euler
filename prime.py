@@ -73,12 +73,12 @@ class prime_generator(object):
                 yield x
 
 
-def prime_factors(n):
+def prime_factors_seed(n, seed=None, preserve_seed=True):
     '''
-    Give the prime factors of a number.
+    Give the prime factors of a number, and return a reusable seed.
     '''
     factors = defaultdict(int)
-    primes = prime_generator()
+    primes = prime_generator(seed, preserve_seed)
     for p in primes:
         while n % p == 0:
             factors[p] += 1
@@ -86,4 +86,11 @@ def prime_factors(n):
         if p ** 2 > n:
             if n != 1:  # Happens if the original n was prime.
                 factors[n] += 1
-            return factors
+            return factors, primes
+
+
+def prime_factors(n, seed=None):
+    '''
+    Give the prime factors of a number.
+    '''
+    return prime_factors_seed(n, seed)[0]
