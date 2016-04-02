@@ -13,14 +13,7 @@ Evaluate the sum of all the amicable numbers under 10000.
 
 from math import sqrt
 
-
-def divisors(x):
-    # Based broadly on http://stackoverflow.com/a/171779/220155
-    for i in range(1, int(sqrt(x) + 1)):
-        if x % i == 0:
-            yield i
-            if i != 1 and i * i != x:
-                yield x // i
+from divisors import divisors
 
 
 def is_amicable_pair(x, y):
