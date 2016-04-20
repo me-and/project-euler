@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 '''
+Largest product in a grid
+
 In the 20×20 grid below, four numbers along a diagonal line have been
 marked.
 
