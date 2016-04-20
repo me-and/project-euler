@@ -17,6 +17,7 @@ import os.path
 
 LETTER_SCORES = dict(zip('ABCDEFGHIJKLMNOPQRSTUVWXYZ', range(1, 27)))
 
+
 def score_name(name):
     return sum(LETTER_SCORES[l] for l in name)
 

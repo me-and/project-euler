@@ -22,6 +22,7 @@ DAYS = ('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday',
 MONTHS = ('January', 'February', 'March', 'April', 'May', 'June',
           'July', 'August', 'September', 'October', 'November', 'December')
 
+
 class Month(object):
     def __init__(self, name, year, start_day):
         self.name = name

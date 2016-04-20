@@ -18,6 +18,7 @@ Which starting number, under one million, produces the longest chain?
 NOTE: Once the chain starts the terms are allowed to go above one million.
 '''
 
+
 def next_collatz(n):
     if n % 2 == 0:
         return n // 2
@@ -36,6 +37,7 @@ def print_collatz_chain(n):
         print(n, end=' -> ')
         n = next_collatz(n)
     print(n)
+
 
 if __name__ == '__main__':
     chain_lengths = {1: 1}
