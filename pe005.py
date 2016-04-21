@@ -12,7 +12,7 @@ numbers from 1 to 20?
 from collections import defaultdict
 from sys import argv
 
-from prime import prime_factors_seed
+from prime import prime_factors
 
 
 if __name__ == '__main__':
@@ -23,13 +23,8 @@ if __name__ == '__main__':
 
     powers = defaultdict(int)
 
-    # Keep track of prime_generator instances, starting with None, to allow
-    # pre-seeding of the next prime generator.
-    prime_generator = None
-
     for n in range(2, target + 1):
-        prime_powers, prime_generator = prime_factors_seed(n, prime_generator,
-                                                           preserve_seed=False)
+        prime_powers = prime_factors(n)
         for k in prime_powers:
             powers[k] = max(powers[k], prime_powers[k])
 

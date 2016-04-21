@@ -29,21 +29,17 @@ from itertools import count
 from math import sqrt
 from sys import argv
 
-from prime import prime_factors_seed
+from prime import prime_factors
 
 
 def triangle(x):
     return (x * (x + 1)) // 2
 
 
-def num_divisors(x, pg_seed=None):
+def num_divisors(x):
     # Based on http://mathschallenge.net/index.php?section=faq&ref=number/number_of_divisors
-    prime_factors, pg_seed = prime_factors_seed(x, pg_seed,
-                                                preserve_seed=False)
-    return (reduce(lambda x, y: x * (y + 1),
-                   prime_factors.values(),
-                   1),
-            pg_seed)
+    factors = prime_factors(x)
+    return reduce(lambda x, y: x * (y + 1), factors.values(), 1)
 
 
 if __name__ == '__main__':
@@ -57,7 +53,7 @@ if __name__ == '__main__':
     # Start at 2, since num_divisors doesn't work with 1.
     for i in count(2):
         num = triangle(i)
-        divisors, pg_seed = num_divisors(num, pg_seed)
+        divisors = num_divisors(num)
         if divisors > goal:
             print(num)
             break
