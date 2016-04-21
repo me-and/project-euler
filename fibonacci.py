@@ -1,4 +1,4 @@
-def fibonacci(a=1, b=2):
+def fibonacci(a=1, b=1):
     yield a
     yield b
     while True:
