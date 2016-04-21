@@ -101,3 +101,16 @@ def prime_factors(n):
             if n != 1:  # Happens if the original n was prime
                 factors[n] += 1
             return factors
+
+
+def is_prime(n):
+    if not _prime_generator.primes or n > _prime_generator.primes[-1]:
+        # We haven't generated primes up to this number yet, so keep generating
+        # them until we have.
+        for x in _prime_generator:
+            if n == x:  # Generated n as a prime
+                return True
+            elif n < x:  # Passed n without generating it
+                return False
+    else:
+        return n in _prime_generator.primes
