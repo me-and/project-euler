@@ -13,13 +13,7 @@ four million, find the sum of the even-valued terms.
 
 from itertools import takewhile
 
-
-def fibonacci(a=1, b=2):
-    yield a
-    yield b
-    while True:
-        a, b = b, a + b
-        yield b
+from fibonacci import fibonacci
 
 
 if __name__ == '__main__':
