@@ -69,48 +69,51 @@ class PrimeGenerator(object):
                 self.primes.add(x)
                 yield x
 
+    def prime_generator(self):
+        '''Generate primes, starting at 2.
+
+        This copes just fine with having multiple instances of the generator in
+        use, but it isn't thread safe.
+        '''
+        idx = 0
+        while True:
+            try:
+                prime = self.primes[idx]
+            except IndexError:  # Haven't generated the next prime yet
+                prime = next(self)
+            yield prime
+            idx += 1
+
+    def prime_factors(self, n):
+        factors = defaultdict(int)
+        for p in self.prime_generator():
+            while n % p == 0:
+                factors[p] += 1
+                n //= p
+            if p ** 2 > n:
+                if n != 1:  # Happens if the original n was prime
+                    factors[n] += 1
+                return factors
+
+    def is_prime(self, n):
+        if not self.primes or n > self.primes[-1]:
+            # We haven't generated primes up to this number yet, so keep
+            # generating them until we have.
+            for x in self:
+                if n == x:  # Generated n as a prime
+                    return True
+                elif n < x:  # Passed n without generating it
+                    return False
+        else:
+            return n in self.primes
+
 
 # Global to use for the majority of functions, to avoid needing to recalculate
 # values whenever the function is called.
 _prime_generator = PrimeGenerator()
 
 
-def prime_generator():
-    '''Generate primes, using pre-generated ones if they exist.
-
-    This copes just fine with having multiple instances of the generator in
-    use, but it isn't thread safe.
-    '''
-    idx = 0
-    while True:
-        try:
-            prime = _prime_generator.primes[idx]
-        except IndexError:  # Haven't generated the next prime yet
-            prime = next(_prime_generator)
-        yield prime
-        idx += 1
-
-
-def prime_factors(n):
-    factors = defaultdict(int)
-    for p in prime_generator():
-        while n % p == 0:
-            factors[p] += 1
-            n //= p
-        if p ** 2 > n:
-            if n != 1:  # Happens if the original n was prime
-                factors[n] += 1
-            return factors
-
-
-def is_prime(n):
-    if not _prime_generator.primes or n > _prime_generator.primes[-1]:
-        # We haven't generated primes up to this number yet, so keep generating
-        # them until we have.
-        for x in _prime_generator:
-            if n == x:  # Generated n as a prime
-                return True
-            elif n < x:  # Passed n without generating it
-                return False
-    else:
-        return n in _prime_generator.primes
+# Provide module-level functions based on the global _prime_generator.
+prime_generator = _prime_generator.prime_generator
+prime_factors = _prime_generator.prime_factors
+is_prime = _prime_generator.is_prime
