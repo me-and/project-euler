@@ -9,7 +9,7 @@ fourth powers of their digits:
     8208 = 8^4 + 2^4 + 0^4 + 8^4
     9474 = 9^4 + 4^4 + 7^4 + 4^4
 
-As 1 = 14 is not a sum it is not included.
+As 1 = 1^4 is not a sum it is not included.
 
 The sum of these numbers is 1634 + 8208 + 9474 = 19316.
 
