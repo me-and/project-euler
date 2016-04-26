@@ -31,13 +31,15 @@ if __name__ == '__main__':
         power = 5
         num_digits = 6
 
+    powers = {n: n ** power for n in range(10)}
+
     running_total = 0
     for digits in product(range(10), repeat=num_digits):
         if digits[:-1] == (0,) * (num_digits - 1):
             # Starts with all zeros, so not a sum and should be skipped.
             continue
         number = sum(n * (10 ** p) for p, n in enumerate(digits[::-1]))
-        power_sum = sum(n ** power for n in digits)
+        power_sum = sum(powers[n] for n in digits)
 
         if number == power_sum:
             running_total += number
