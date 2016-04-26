@@ -17,7 +17,7 @@ Find the sum of all the numbers that can be written as the sum of fifth powers
 of their digits.
 '''
 
-from itertools import count
+from itertools import combinations_with_replacement, count
 from sys import argv
 
 # Let fp(k) be the sum of the pth powers of the digits of k, so for example
@@ -46,6 +46,11 @@ from sys import argv
 # know when k is at most a five-digit number, f4(k) ≤ 32805, so since we are
 # interested in cases where f4(k) == k, we only need to find cases where
 # k ≤ 32805.
+#
+# That all said, note that fp(123) == fp(321).  It turns out to be quicker to
+# only consider unique sets of digits of k, thus avoiding calculating both
+# fp(123) and fp(321), then working out whether the digits of k can be
+# rearranged to make fp(k).
 
 if __name__ == '__main__':
     try:
@@ -53,22 +58,30 @@ if __name__ == '__main__':
     except IndexError:
         power = 5
 
-    powers = {str(n): n ** power for n in range(10)}
+    powers = {n: n ** power for n in range(10)}
 
-    # Find the maximum number we're interested in.
-    for digits in count(2):
-        maximum = digits * (9 ** power)
-        minimum = 10 ** (digits - 1)
+    # Find the maximum number of digits that we're interested in.
+    for num_digits in count(2):
+        maximum = num_digits * (9 ** power)
+        minimum = 10 ** (num_digits - 1)
         if maximum < minimum:
-            maximum = (digits - 1) * (9 ** power)
             break
+    num_digits -= 1
 
     running_total = 0
-    for number in range(10, maximum + 1):
-        power_sum = sum(powers[n] for n in str(number))
+    for digits in combinations_with_replacement(range(10), num_digits):
+        power_sum = sum(powers[x] for x in digits)
+        if power_sum < 10:
+            # Don't care about numbers less than 10, because the sum isn't a
+            # sum.
+            continue
 
-        if number == power_sum:
-            running_total += number
-            print(number)
+        # To check whether there's an arrangement of the digits of k such that
+        # fp(k) == k, use the fact that combinations_with_replacement gives
+        # tuples that are already sorted.  Thus we convert fp(k) to a string,
+        # sort the string character-by-character, then convert the digits back
+        # to individual integers.
+        if digits == tuple(map(int, sorted('{:0{digits}}'.format(power_sum, digits=num_digits)))):
+            running_total += power_sum
 
     print('Total:', running_total)
