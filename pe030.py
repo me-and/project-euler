@@ -81,7 +81,9 @@ if __name__ == '__main__':
         # tuples that are already sorted.  Thus we convert fp(k) to a string,
         # sort the string character-by-character, then convert the digits back
         # to individual integers.
-        if digits == tuple(map(int, sorted('{:0{digits}}'.format(power_sum, digits=num_digits)))):
+        if digits == tuple(map(
+                int,
+                sorted('{:0{digits}}'.format(power_sum, digits=num_digits)))):
             running_total += power_sum
 
     print('Total:', running_total)

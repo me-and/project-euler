@@ -24,6 +24,7 @@ in its decimal fraction part.
 
 from sys import argv
 
+
 # Repeatedly perform long division -- multiplying by 10 and dividing by n --
 # until we get either 0 (in which case there's no cycle) or a remainder that
 # we've seen before, in which case use the dict mapping remainders we've seen
