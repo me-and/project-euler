@@ -18,20 +18,20 @@ include it once in your sum.
 
 from itertools import permutations
 
-if __name__ == '__main__':
-    # We're looking for x, y and z such that x * y == z and all the digits 1-9
-    # occur exactly once.  Consider permutations of the digits 1-9, consider
-    # all the splits of such digits, then check whether each split satisfies
-    # x * y == z.
-    products = set()
-    for permutation in permutations('123456789'):
-        for lslice in range(1, 8):
-            for rslice in range(lslice + 1, 9):
-                multiplier = int(''.join(permutation[:lslice]))
-                multiplicand = int(''.join(permutation[lslice:rslice]))
-                product = int(''.join(permutation[rslice:]))
+GOAL_SET = frozenset('123456789')
 
-                if multiplier * multiplicand == product:
-                    products.add(product)
+if __name__ == '__main__':
+    # Multiply things and see if the result is pandigital.  Only need to go up
+    # to four-digit numbers because if either of the products is a five-digit
+    # number the result will have at least five digits, and the total number of
+    # digits must be nine.
+    products = set()
+    for multiplicand in range(1, 10000):
+        for multiplier in range(1, 10000 // multiplicand):
+            product = multiplier * multiplicand
+            if set(str(multiplicand) +
+                   str(multiplier) +
+                   str(product)) == GOAL_SET:
+                products.add(product)
 
     print(sum(products))
