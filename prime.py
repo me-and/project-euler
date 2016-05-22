@@ -29,6 +29,9 @@ class OrderedSet(object):
     def __len__(self):
         return len(self._list)
 
+    def __repr__(self):
+        return '{}({!r})'.format(self.__class__.__name__, self._list)
+
 
 class PrimeGenerator(object):
     '''Generate primes reasonably efficiently.'''
