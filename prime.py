@@ -66,7 +66,7 @@ class PrimeGenerator(object):
                 # this prime will clearly be odd, the generator increments by
                 # double the prime each time, guaranteeing the next number will
                 # always be odd too.  The starting point is thus triple the
-                # prime, since we can do the first incremen immediately.
+                # prime, since we can do the first increment immediately.
                 gen = count(x * 3, x * 2)
                 self.composites[next(gen)].append(gen)
                 self.primes.add(x)
