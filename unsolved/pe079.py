@@ -12,3 +12,12 @@ The text file, keylog.txt, contains fifty successful login attempts.
 Given that the three characters are always asked for in order, analyse the file
 so as to determine the shortest possible secret passcode of unknown length.
 '''
+
+import os.path
+
+HINT_PATH = os.path.join('pe079', 'keylog.txt')
+
+
+def load_hints():
+    with open(HINT_PATH) as hint_file:
+        return set(line.strip() for line in hint_file)
