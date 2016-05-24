@@ -16,3 +16,14 @@ arrive at 1 or 89.
 
 How many starting numbers below ten million will arrive at 89?
 '''
+
+_arrives_at_89 = {89: True, 1: False}
+
+
+def arrives_at_89(num):
+    if num not in _arrives_at_89:
+        _arrives_at_89[num] = arrives_at_89(sum(int(x) ** 2 for x in str(num)))
+    return _arrives_at_89[num]
+
+if __name__ == '__main__':
+    print(sum(1 for num in range(1, 10000001) if arrives_at_89(num)))
