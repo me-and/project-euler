@@ -67,3 +67,31 @@ The sum of the digits in the numerator of the 10th convergent is 1+4+5+7 = 17.
 Find the sum of the digits in the numerator of the 100th convergent of the
 continued fraction for e.
 '''
+
+from fractions import Fraction
+from itertools import islice
+from sys import argv
+
+
+def gen_terms():
+    k = 2
+    while True:
+        yield 1
+        yield k
+        yield 1
+        k += 2
+
+if __name__ == '__main__':
+    try:
+        convergent = int(argv[1])
+    except IndexError:
+        convergent = 100
+
+    terms = list(islice(gen_terms(), convergent - 1))
+    result = Fraction(1, terms[-1])
+    for term in terms[-2::-1]:
+        result = Fraction(1, term + result)
+
+    result += 2
+
+    print(sum(int(c) for c in str(result.numerator)))
