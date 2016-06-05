@@ -19,39 +19,12 @@ words, how many are triangle words?
 from itertools import count
 import os.path
 
+from sequence import MonatonicIncreasingSequence
+
 LETTER_SCORES = dict(zip('ABCDEFGHIJKLMNOPQRSTUVWXYZ', range(1, 27)))
 
 
-class TriangleGenerator(object):
-    def __init__(self):
-        self.triangles = set()
-        self.max_triangle = 0
-        self._generator = self._triangle_generator()
-
-    def _triangle_generator(self):
-        for i in count(1):
-            self.max_triangle = (i * (i + 1)) // 2
-            self.triangles.add(self.max_triangle)
-            yield self.max_triangle
-
-    def __iter__(self):
-        return self
-
-    def __next__(self):
-        return next(self._generator)
-
-    def is_triangle(self, num):
-        if num > self.max_triangle:
-            for tr in self:
-                if num == tr:  # Generated num as a triangle number
-                    return True
-                elif num < tr:  # Passed num without generating it
-                    return False
-        else:
-            return num in self.triangles
-
-
-is_triangle = TriangleGenerator().is_triangle
+triangles = MonatonicIncreasingSequence((i * (i + 1)) // 2 for i in count(1))
 
 
 def score_word(word):
@@ -60,7 +33,7 @@ def score_word(word):
 
 
 def triangle_word(word):
-    return is_triangle(score_word(word))
+    return score_word(word) in triangles
 
 if __name__ == '__main__':
     with open(os.path.join('pe042', 'words.txt')) as word_file:

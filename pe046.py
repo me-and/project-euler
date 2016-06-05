@@ -21,38 +21,10 @@ and twice a square?
 from itertools import count
 
 from prime import is_prime, prime_generator
+from sequence import MonatonicIncreasingSequence
 
 
-class SquareGenerator(object):
-    def __init__(self):
-        self.squares = set()
-        self.max_square = 0
-        self._generator = self._square_generator()
-
-    def _square_generator(self):
-        for i in count(1):
-            self.max_square = i ** 2
-            self.squares.add(self.max_square)
-            yield self.max_square
-
-    def __iter__(self):
-        return self
-
-    def __next__(self):
-        return next(self._generator)
-
-    def is_square(self, num):
-        if num > self.max_square:
-            for sq in self:
-                if num == sq:  # Generated num as a square
-                    return True
-                elif num < sq:  # Passed num without generating it
-                    return False
-        else:
-            return num in self.squares
-
-
-is_square = SquareGenerator().is_square
+squares = MonatonicIncreasingSequence(i ** 2 for i in count(1))
 
 
 def meets_goldbach(num):
@@ -61,7 +33,7 @@ def meets_goldbach(num):
             # We've cycled through all the primes less than num, so there can
             # be no prime that meets the conjecture.
             return False
-        if is_square((num - prime) // 2):
+        if (num - prime) // 2 in squares:
             return True
 
 
