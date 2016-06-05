@@ -20,7 +20,7 @@ and twice a square?
 
 from itertools import count
 
-from prime import is_prime, prime_generator
+from prime import primes
 from sequence import MonatonicIncreasingSequence
 
 
@@ -28,7 +28,7 @@ squares = MonatonicIncreasingSequence(i ** 2 for i in count(1))
 
 
 def meets_goldbach(num):
-    for prime in prime_generator():
+    for prime in primes:
         if prime > num:
             # We've cycled through all the primes less than num, so there can
             # be no prime that meets the conjecture.
@@ -39,7 +39,7 @@ def meets_goldbach(num):
 
 if __name__ == '__main__':
     for num in count(3, 2):
-        if is_prime(num):  # Not composite, so skip.
+        if num in primes:  # Not composite, so skip.
             continue
         if not meets_goldbach(num):
             print(num)

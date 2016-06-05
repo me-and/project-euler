@@ -12,7 +12,7 @@ What is the largest n-digit pandigital prime that exists?
 from collections import deque
 from itertools import takewhile
 
-from prime import PrimeGenerator
+from prime import primes
 
 PANDIGITAL_SETS = {n: frozenset(str(i) for i in range(1, n + 1))
                    for n in range(1, 10)}
@@ -37,6 +37,6 @@ def is_pandigital(num):
 # return the largest of these that is also pandigital.
 
 if __name__ == '__main__':
-    pg = PrimeGenerator()
-    consume(takewhile(lambda x: x < 7654321, pg))
-    print(next(prime for prime in reversed(pg.primes) if is_pandigital(prime)))
+    consume(takewhile(lambda x: x < 7654321, primes))
+    print(next(prime for prime in reversed(primes.history)
+               if is_pandigital(prime)))

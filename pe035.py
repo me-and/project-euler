@@ -11,7 +11,7 @@ There are thirteen such primes below 100: 2, 3, 5, 7, 11, 13, 17, 31, 37, 71,
 How many circular primes are there below one million?
 '''
 
-from prime import is_prime, prime_generator
+from prime import primes
 from sys import argv
 
 
@@ -24,7 +24,7 @@ def rotations(n):
 def circular_prime(n):
     '''Assuming n is prime, is it a circular prime?'''
     for i in rotations(n):
-        if not is_prime(i):
+        if i not in primes:
             return False
     return True
 
@@ -36,7 +36,7 @@ if __name__ == '__main__':
         maximum = 1000000
 
     circular_primes = set()
-    for p in prime_generator():
+    for p in primes:
         if p > maximum:
             break
         if circular_prime(p):

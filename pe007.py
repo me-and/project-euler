@@ -11,7 +11,7 @@ What is the 10001st prime number?
 from sys import argv
 from itertools import islice
 
-from prime import prime_generator
+from prime import primes
 
 if __name__ == '__main__':
     try:
@@ -20,4 +20,4 @@ if __name__ == '__main__':
         target = 10001
 
     # Use islice to discard the first `target - 1` primes.
-    print(next(islice(prime_generator(), target - 1, None)))
+    print(next(islice(primes, target - 1, None)))

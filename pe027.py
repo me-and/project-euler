@@ -28,7 +28,7 @@ starting with n = 0.
 from itertools import count, product
 from sys import argv
 
-from prime import is_prime
+from prime import primes
 
 
 def quad(a, b, n):
@@ -60,7 +60,7 @@ if __name__ == '__main__':
     for a, b in product(range(min_a, max_a + 1), range(min_b, max_b + 1)):
         primes_found = 0
         for n in count():
-            if is_prime(quad(a, b, n)):
+            if quad(a, b, n) in primes:
                 primes_found += 1
             else:
                 if primes_found > most_primes_found:
