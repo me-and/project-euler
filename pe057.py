@@ -21,3 +21,15 @@ numerator exceeds the number of digits in the denominator.
 In the first one-thousand expansions, how many fractions contain a numerator
 with more digits than denominator?
 '''
+
+from fractions import Fraction
+
+if __name__ == '__main__':
+    count = 0
+    fraction = 0
+    for _ in range(1000):
+        fraction = Fraction(1, 2 + fraction)
+        expansion = 1 + fraction
+        if len(str(expansion.numerator)) > len(str(expansion.denominator)):
+            count += 1
+    print(count)
