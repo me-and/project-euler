@@ -1,5 +1,11 @@
+from collections import deque
 import collections.abc as abc
 from itertools import count, dropwhile, takewhile
+
+
+def consume(iterable):
+    # Based on https://docs.python.org/3/library/itertools.html#itertools-recipes
+    deque(iterable, maxlen=0)
 
 
 class OrderedSet(abc.MutableSequence):
