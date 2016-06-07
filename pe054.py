@@ -52,6 +52,7 @@ How many hands does Player 1 win?
 '''
 
 from functools import total_ordering
+from itertools import groupby
 import os.path
 
 RANKS = tuple('23456789TJQKA')
@@ -104,10 +105,8 @@ class Hand(object):
         return max(ranks) - min(ranks) == 4 and len(ranks) == 5
 
     def group_cards_by_rank(self):
-        ranks = {}
-        for card in self.cards:
-            ranks.setdefault(card.rank, []).append(card)
-        return ranks
+        return {rank: tuple(cards) for rank, cards
+                in groupby(sorted(self.cards), lambda x: x.rank)}
 
     def _score(self):
         # Provide a score from 1-9 for easy comparison between the different
