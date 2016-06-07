@@ -27,3 +27,29 @@ case characters. Using cipher.txt, a file containing the encrypted ASCII codes,
 and the knowledge that the plain text must contain common English words,
 decrypt the message and find the sum of the ASCII values in the original text.
 '''
+
+from itertools import cycle, product
+import os.path
+
+
+def load_cyphertext():
+    with open(os.path.join('pe059', 'cipher.txt')) as f:
+        string = f.read()
+    return list(map(int, string.strip().split(',')))
+
+
+def crypt(text, key):
+    key = tuple(map(ord, key))
+    return ''.join(chr(x ^ k) for x, k in zip(text, cycle(key)))
+
+
+if __name__ == '__main__':
+    cyphertext = load_cyphertext()
+    for key in product('abcdefghijklmnopqrstuvwxyz', repeat=3):
+        cleartext = crypt(cyphertext, key)
+        # Experimentation shows this is sufficient to get a single unique
+        # answer.
+        if ' the ' in cleartext:
+            print('{}: {}'.format(''.join(key), cleartext))
+            break
+    print(sum(map(ord, cleartext)))
