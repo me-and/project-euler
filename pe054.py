@@ -84,6 +84,9 @@ class Card(object):
         return "{}('{}{}')".format(self.__class__.__name__,
                                    self.rank, self.suit)
 
+    def __str__(self):
+        return '{}{}'.format(self.rank, self.suit)
+
 
 @total_ordering
 class Hand(object):
@@ -171,6 +174,10 @@ class Hand(object):
             return False
         else:
             return s_score < o_score
+
+    def __repr__(self):
+        return '{}({!r})'.format(self.__class__.__name__,
+                                 ' '.join(str(card) for card in self.cards))
 
 
 if __name__ == '__main__':
