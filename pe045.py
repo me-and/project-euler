@@ -14,7 +14,7 @@ It can be verified that T(285) = P(165) = H(143) = 40755.
 Find the next triangle number that is also pentagonal and hexagonal.
 '''
 
-from itertools import count, dropwhile
+from itertools import count
 
 from sequence import MonatonicIncreasingSequence
 
@@ -27,7 +27,7 @@ if __name__ == '__main__':
     # hexagons.  It makes little difference which we iterate over, since we'll
     # need to generate numbers in each sequence up to the number under test in
     # any case, so let's just go with the wording in the question.
-    for number in dropwhile(lambda x: x <= 40755, triangles):
+    for number in triangles.range(40756, None):
         if number in pentagons and number in hexagons:
             print(number)
             break

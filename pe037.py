@@ -13,8 +13,6 @@ right and right to left.
 NOTE: 2, 3, 5, and 7 are not considered to be truncatable primes.
 '''
 
-from itertools import dropwhile
-
 from prime import primes
 
 
@@ -29,7 +27,7 @@ def truncatable_prime(prime):
 
 if __name__ == '__main__':
     truncatable_primes = []
-    for prime in dropwhile(lambda x: x < 10, primes):
+    for prime in primes.range(10, None):
         if truncatable_prime(prime):
             truncatable_primes.append(prime)
             if len(truncatable_primes) >= 11:

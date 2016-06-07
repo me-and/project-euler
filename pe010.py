@@ -8,7 +8,6 @@ Find the sum of all the primes below two million.
 '''
 
 from sys import argv
-from itertools import takewhile
 
 from prime import primes
 
@@ -17,4 +16,4 @@ if __name__ == '__main__':
         target = int(argv[1])
     except IndexError:
         target = 2000000
-    print(sum(takewhile(lambda x: x < target, primes)))
+    print(sum(primes.range(target + 1)))

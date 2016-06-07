@@ -10,6 +10,10 @@ Find the sum of all the multiples of 3 or 5 below 1000.
 
 from itertools import takewhile, count
 
+from sequence import MonatonicIncreasingSequence
+
+multiples = MonatonicIncreasingSequence(n for n in count()
+                                        if n % 3 == 0 or n % 5 == 0)
+
 if __name__ == '__main__':
-    print(sum(takewhile(lambda x: x < 1000,
-                        (n for n in count() if n % 3 == 0 or n % 5 == 0))))
+    print(sum(multiples.range(999)))
