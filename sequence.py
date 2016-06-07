@@ -1,5 +1,5 @@
 import collections.abc as abc
-from itertools import count
+from itertools import count, dropwhile, takewhile
 
 
 class OrderedSet(abc.MutableSequence):
@@ -85,3 +85,20 @@ class MonatonicIncreasingSequence(abc.Container, abc.Iterable):
             return number == next(n for n in self.generator if n >= number)
         else:
             return number in self.history
+
+    def range(self, *args):
+        # Emulate the interface to islice and the like.
+        if len(args) == 1:
+            # Only a stop point specified.
+            return takewhile(lambda x: x <= args[0], self)
+        elif len(args) == 2 and args[1] is None:
+            # Only a start point specified.
+            return dropwhile(lambda x: x < args[0], self)
+        elif len(args) == 2:
+            # Start and stop point specified.
+            return takewhile(lambda x: x <= args[1],
+                             dropwhile(lambda x: x < args[0], self))
+        else:
+            raise TypeError(
+                '{}.range expected at most 2 arguments, got {}'.format(
+                    self.__class__.__name__, len(args)))
