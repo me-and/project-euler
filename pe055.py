@@ -31,3 +31,20 @@ How many Lychrel numbers are there below ten-thousand?
 NOTE: Wording was modified slightly on 24 April 2007 to emphasise the
 theoretical nature of Lychrel numbers.
 '''
+
+
+def lychrel(num):
+    num += int(str(num)[::-1])
+    for _ in range(49):
+        string = str(num)
+        reverse = string[::-1]
+        if string == reverse:
+            return False
+        else:
+            num += int(reverse)
+    else:
+        return True
+
+
+if __name__ == '__main__':
+    print(sum(lychrel(num) for num in range(1, 10001)))
