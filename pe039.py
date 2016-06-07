@@ -25,8 +25,8 @@ if __name__ == '__main__':
 
     solutions = {}
     for p in range(1, maximum + 1):
-        # Find integer solutions for a + b + c == p and a ≤ b ≤ c.  Thus a ≤ p/3,
-        # and b ≤ (p - a)/2
+        # Find integer solutions for a + b + c == p and a ≤ b ≤ c.  Thus
+        # a ≤ p/3, and b ≤ (p - a)/2
         for a in range(1, p // 3):
             for b in range(1, (p - a) // 2):
                 c = p - a - b
