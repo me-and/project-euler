@@ -1,6 +1,6 @@
 from collections import deque
 import collections.abc as abc
-from itertools import count, dropwhile, takewhile
+from itertools import count, dropwhile, islice, takewhile
 
 
 def consume(iterable):
@@ -91,6 +91,17 @@ class MonatonicIncreasingSequence(abc.Container, abc.Iterable):
             return number == next(n for n in self.generator if n >= number)
         else:
             return number in self.history
+
+    def __getitem__(self, key):
+        if isinstance(key, slice):
+            stop = key.stop
+        else:
+            stop = key + 1
+
+        if stop > len(self.history):
+            consume(islice(self.generator, stop - len(self.history)))
+
+        return self.history[key]
 
     def range(self, *args):
         # Emulate the interface to islice and the like.
