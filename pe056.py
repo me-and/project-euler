@@ -9,3 +9,9 @@ Despite their size, the sum of the digits in each number is only 1.
 Considering natural numbers of the form, a^b, where a, b < 100, what is the
 maximum digital sum?
 '''
+
+from itertools import product
+
+if __name__ == '__main__':
+    print(max(sum(int(c) for c in str(a ** b))
+              for a, b in product(range(1, 100), repeat=2)))
