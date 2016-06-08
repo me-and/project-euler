@@ -1,7 +1,10 @@
 '''Functions for working with primes.'''
 
 from collections import defaultdict
+import collections.abc as abc
 from itertools import count
+from math import log
+import random
 
 from sequence import MonatonicIncreasingSequence
 
@@ -48,6 +51,94 @@ class PrimeGenerator(MonatonicIncreasingSequence):
                 if n != 1:  # Happens if the original n was prime
                     factors[n] += 1
                 return factors
+
+
+class MillerRabinPrimes(abc.Container):
+
+    _low_primes = {2, 3, 5, 7, 11, 13, 17, 19}
+
+    def __init__(self, deterministic=True, witness_generator=None):
+        if witness_generator is None:
+            if deterministic:
+                self.generate_witnesses = self._deterministic_witnesses
+            else:
+                self.generate_witnesses = self._random_witnesses
+        else:
+            self.generate_witnesses = witness_generator
+
+    @staticmethod
+    def _random_witnesses(possible_prime, num_witnesses=20):
+        # Generate the requested number of witnesses randomly from the suitable
+        # range, being [2, n-2] where n is the number being tested.
+        return random.sample(range(2, possible_prime - 1),
+                             min(num_witnesses, possible_prime - 3))
+
+    @staticmethod
+    def _deterministic_witnesses(possible_prime):
+        # Below based on http://primes.utm.edu/prove/prove2_3.html
+        if possible_prime < 2047:
+            return (2,)
+        if possible_prime < 1373653:
+            return (2, 3)
+        if possible_prime < 9080191:
+            return (31, 73)
+        if possible_prime < 25326001:
+            return (2, 3, 5)
+        if possible_prime < 4759123141:
+            return (2, 7, 61)
+        if possible_prime < 118670087467 and possible_prime != 3215031751:
+            return (2, 3, 5, 7)
+        if possible_prime < 2152302898747:
+            return (2, 3, 5, 7, 11)
+        if possible_prime < 3474749660383:
+            return (2, 3, 5, 7, 11, 13)
+        if possible_prime < 341550071728321:
+            return (2, 3, 5, 7, 11, 13, 17)
+
+        # Assume the generalized Riemann hypothesis holds for the below to be
+        # deterministic for all possible primes.  Based on
+        # https://en.wikipedia.org/wiki/Miller%E2%80%93Rabin_primality_test
+        return range(2, 1 + min(possible_prime - 1,
+                                int(2 * log(possible_prime) ** 2)))
+
+    def __contains__(self, item):
+        if item <= 20:
+            return item in self._low_primes
+        if item % 2 == 0:  # Even
+            return False
+
+        # The below implements the Miller-Rabin primality test, based largerly
+        # on the pseudocode example at
+        # https://en.wikipedia.org/wiki/Miller–Rabin_primality_test.
+        #
+        # If this returns False, the number is definitely composite.  If this
+        # returns True, then whether the number is definitely prime or merely
+        # probably prime depends on whether the set of witnesses tested was
+        # sufficient for the algorithm to be deterministic or not.
+        d = item - 1
+        r = 0
+        while d % 2 == 0:
+            d //= 2
+            r += 1
+
+        for witness in self.generate_witnesses(item):
+            if not self._single_prime_test(witness, d, r, item):
+                return False
+
+        return True
+
+    @staticmethod
+    def _single_prime_test(witness, d, r, item):
+        x = pow(witness, d, item)
+        if x == 1 or x == item - 1:
+            return True
+        for _ in range(r - 1):
+            x = pow(x, 2, item)
+            if x == 1:
+                return False
+            if x == item - 1:
+                return True
+        return False
 
 
 # Global to use for the majority of functions, to avoid needing to recalculate
