@@ -22,3 +22,33 @@ with side length 9 will be formed. If this process is continued, what is the
 side length of the square spiral for which the ratio of primes along both
 diagonals first falls below 10%?
 '''
+
+from prime import MillerRabinPrimes
+
+
+def generate_corners():
+    increment = 10
+    side_length = 2
+    value = 3
+    while True:
+        # Don't yield the fourth corner, as it's always going to be a perfect
+        # square and thus never prime.
+        yield (value, value + side_length, value + side_length * 2)
+        value += increment
+        side_length += 2
+        increment += 8
+
+if __name__ == '__main__':
+    num_corners = 1
+    num_primes = 0
+    side_length = 1
+
+    primes = MillerRabinPrimes()
+
+    for corners in generate_corners():
+        num_corners += 4
+        side_length += 2
+        num_primes += sum(corner in primes for corner in corners)
+        if num_primes * 10 < num_corners:
+            print(side_length)
+            break
