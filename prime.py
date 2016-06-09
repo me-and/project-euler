@@ -53,11 +53,21 @@ class PrimeGenerator(MonatonicIncreasingSequence):
                 return factors
 
 
+# Global to use for the majority of functions, to avoid needing to recalculate
+# values whenever the function is called.
+primes = PrimeGenerator()
+
+# Provide module-level functions based on the global PrimeGenerator instance.
+prime_factors = primes.prime_factors
+
+
 class MillerRabinPrimes(abc.Container):
 
-    _low_primes = {2, 3, 5, 7, 11, 13, 17, 19}
-
-    def __init__(self, deterministic=True, witness_generator=None):
+    # Limit for trial division established by experimentation with problem 60.
+    def __init__(self,
+                 deterministic=True,
+                 witness_generator=None,
+                 trial_division_limit=52):
         if witness_generator is None:
             if deterministic:
                 self.generate_witnesses = self._deterministic_witnesses
@@ -65,6 +75,9 @@ class MillerRabinPrimes(abc.Container):
                 self.generate_witnesses = self._random_witnesses
         else:
             self.generate_witnesses = witness_generator
+
+        self.low_prime_limit = trial_division_limit
+        self.low_primes = set(primes.range(trial_division_limit))
 
     @staticmethod
     def _random_witnesses(possible_prime, num_witnesses=20):
@@ -102,10 +115,14 @@ class MillerRabinPrimes(abc.Container):
                                 int(2 * log(possible_prime) ** 2)))
 
     def __contains__(self, item):
-        if item <= 20:
-            return item in self._low_primes
-        if item % 2 == 0:  # Even
-            return False
+        # Trial division suggested by http://primes.utm.edu/prove/prove2_3.html
+        # and experimentation with problem 60 shows it does improve
+        # performance.
+        if item <= self.low_prime_limit:
+            return item in self.low_primes
+        for prime in self.low_primes:
+            if item % prime == 0:
+                return False
 
         # The below implements the Miller-Rabin primality test, based largerly
         # on the pseudocode example at
@@ -139,11 +156,3 @@ class MillerRabinPrimes(abc.Container):
             if x == item - 1:
                 return True
         return False
-
-
-# Global to use for the majority of functions, to avoid needing to recalculate
-# values whenever the function is called.
-primes = PrimeGenerator()
-
-# Provide module-level functions based on the global PrimeGenerator instance.
-prime_factors = primes.prime_factors
