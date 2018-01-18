@@ -16,15 +16,11 @@ Using words.txt, a 16K text file containing nearly two-thousand common English
 words, how many are triangle words?
 '''
 
-from itertools import count
 import os.path
 
-from sequence import MonatonicIncreasingSequence
+from polygons import triangles
 
 LETTER_SCORES = dict(zip('ABCDEFGHIJKLMNOPQRSTUVWXYZ', range(1, 27)))
-
-
-triangles = MonatonicIncreasingSequence((i * (i + 1)) // 2 for i in count(1))
 
 
 def score_word(word):

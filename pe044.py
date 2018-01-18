@@ -15,15 +15,10 @@ difference are pentagonal and D = |P(k) − P(j)| is minimised; what is the valu
 of D?
 '''
 
-from itertools import count, dropwhile, islice
+from itertools import dropwhile, islice
 import sys
 
-from sequence import MonatonicIncreasingSequence
-
-# The formula is quadratic, and is monatonic for n ≥ 1 (the minimum is at
-# n=1/6).
-pentagons = MonatonicIncreasingSequence((n * (3 * n - 1)) // 2
-                                        for n in count(1))
+from polygons import pentagons
 
 
 def upper_bound():

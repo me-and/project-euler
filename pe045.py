@@ -14,13 +14,7 @@ It can be verified that T(285) = P(165) = H(143) = 40755.
 Find the next triangle number that is also pentagonal and hexagonal.
 '''
 
-from itertools import count
-
-from sequence import MonatonicIncreasingSequence
-
-triangles = MonatonicIncreasingSequence(n * (n + 1) // 2 for n in count(1))
-pentagons = MonatonicIncreasingSequence(n * (3 * n - 1) // 2 for n in count(1))
-hexagons = MonatonicIncreasingSequence(n * (2 * n - 1) for n in count(1))
+from polygons import triangles, pentagons, hexagons
 
 if __name__ == '__main__':
     # Want the first number over 40755 that is in triangles, pentagons and

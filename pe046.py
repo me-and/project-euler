@@ -21,10 +21,7 @@ and twice a square?
 from itertools import count
 
 from prime import primes
-from sequence import MonatonicIncreasingSequence
-
-
-squares = MonatonicIncreasingSequence(i ** 2 for i in count(1))
+from polygons import squares
 
 
 def meets_goldbach(num):
