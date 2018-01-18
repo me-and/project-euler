@@ -31,6 +31,7 @@ def score_word(word):
 def triangle_word(word):
     return score_word(word) in triangles
 
+
 if __name__ == '__main__':
     with open(os.path.join('pe042', 'words.txt')) as word_file:
         word_list = word_file.read().strip().split(',')
