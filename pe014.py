@@ -51,4 +51,3 @@ if __name__ == '__main__':
             max_starter = i
             max_length = length
     print(max_starter)
-    print_collatz_chain(max_starter)
