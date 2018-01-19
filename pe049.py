@@ -13,8 +13,6 @@ What 12-digit number do you form by concatenating the three terms in this
 sequence?
 '''
 
-from itertools import islice
-
 from prime import primes
 
 
