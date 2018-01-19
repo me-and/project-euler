@@ -50,5 +50,4 @@ if __name__ == '__main__':
                     largest_integer = integer
                     largest_n = i
 
-    print(largest_integer, tuple(range(1, largest_n + 1)))
     print(largest_pandigital)

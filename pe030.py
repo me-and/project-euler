@@ -86,4 +86,4 @@ if __name__ == '__main__':
                 sorted('{:0{digits}}'.format(power_sum, digits=num_digits)))):
             running_total += power_sum
 
-    print('Total:', running_total)
+    print(running_total)
