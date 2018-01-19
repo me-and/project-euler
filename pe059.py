@@ -50,6 +50,5 @@ if __name__ == '__main__':
         # Experimentation shows this is sufficient to get a single unique
         # answer.
         if ' the ' in cleartext:
-            print('{}: {}'.format(''.join(key), cleartext))
             break
     print(sum(map(ord, cleartext)))

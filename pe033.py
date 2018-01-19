@@ -39,4 +39,4 @@ if __name__ == '__main__':
             if is_curious(num, den):
                 running_product *= Fraction(num, den)
 
-    print(running_product)
+    print(running_product.denominator)

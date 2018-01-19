@@ -41,4 +41,6 @@ def permutations(prime_one, prime_two, prime_three):
 if __name__ == '__main__':
     for prime_one, prime_two, prime_three in prime_triples():
         if permutations(prime_one, prime_two, prime_three):
-            print(str(prime_one) + str(prime_two) + str(prime_three))
+            string = str(prime_one) + str(prime_two) + str(prime_three)
+            if string != '148748178147':
+                print(string)
