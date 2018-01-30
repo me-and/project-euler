@@ -20,9 +20,7 @@ class OrderedSet(abc.MutableSequence):
         return self._list[key]
 
     def __setitem__(self, key, value):
-        old_value = self._list[key]
-        self._remove_item_from_dict(old_value)
-
+        self._remove_item_from_dict(self._list[key])
         self._list[key] = value
         self._add_item_to_dict(value)
 
