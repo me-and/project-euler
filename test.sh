@@ -66,6 +66,7 @@ declare -A TESTS_AND_RESULTS=(
 	[pe063.py]=49
 	[pe065.py]=272
 	[pe067.py]=7273
+	[pe069.py]=510510
 	[pe079.py]=73162890
 	[pe081.py]=427337
 	[pe089.py]=743

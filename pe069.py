@@ -22,3 +22,27 @@ It can be seen that n=6 produces a maximum n/φ(n) for n ≤ 10.
 
 Find the value of n ≤ 1,000,000 for which n/φ(n) is a maximum.
 '''
+
+from sys import argv
+
+from prime import prime_factors
+
+
+def totient(n):
+    # From Wikipedia: Euler's product formula: φ(n) = n * Π_{p|n}(1-1/p), where
+    # p|n denotes the prime numbers dividing n.  For example:
+    #
+    #     φ(36) = φ(2^2 * 3^2) = 36 * (1 - ½) * (1 - ⅓) = 36 * ½ * ⅔ = 12
+    result = n
+    for factor in prime_factors(n).keys():
+        result -= result // factor
+    return result
+
+
+if __name__ == '__main__':
+    try:
+        maximum = int(argv[1])
+    except IndexError:
+        maximum = 1000000
+
+    print(max(range(1, maximum + 1), key=lambda n: n / totient(n)))
