@@ -52,6 +52,10 @@ class PrimeGenerator(MonatonicIncreasingSequence):
                     factors[n] += 1
                 return factors
 
+    def coprime(self, a, b):
+        return not bool(self.prime_factors(a).keys() &
+                        self.prime_factors(b).keys())
+
 
 # Global to use for the majority of functions, to avoid needing to recalculate
 # values whenever the function is called.
@@ -59,6 +63,7 @@ primes = PrimeGenerator()
 
 # Provide module-level functions based on the global PrimeGenerator instance.
 prime_factors = primes.prime_factors
+coprime = primes.coprime
 
 
 class MillerRabinPrimes(abc.Container):
