@@ -9,7 +9,6 @@ also prime.
 What is the largest n-digit pandigital prime that exists?
 '''
 
-from sequence import consume
 from prime import primes
 
 PANDIGITAL_SETS = {n: frozenset(str(i) for i in range(1, n + 1))
@@ -30,6 +29,5 @@ def is_pandigital(num):
 # return the largest of these that is also pandigital.
 
 if __name__ == '__main__':
-    consume(primes.range(7654321))
-    print(next(prime for prime in reversed(primes.history)
+    print(next(prime for prime in reversed(list(primes.range(7654321)))
                if is_pandigital(prime)))
