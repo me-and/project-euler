@@ -56,15 +56,15 @@ class OrderedSet(abc.MutableSequence):
 
 class MonatonicIncreasingSequence(abc.Container, abc.Iterable):
     def __init__(self, generator):
-        self.history = OrderedSet()
-        self.generator = self._generator(generator)
+        self._history = OrderedSet()
+        self._generator = self._storing_generator(generator)
 
     def __iter__(self):
         return self._sequence()
 
-    def _generator(self, generator):
+    def _storing_generator(self, generator):
         for value in generator:
-            self.history.append(value)
+            self._history.append(value)
             yield value
 
     def _sequence(self):
@@ -75,20 +75,20 @@ class MonatonicIncreasingSequence(abc.Container, abc.Iterable):
         '''
         for idx in count():
             try:
-                nxt = self.history[idx]
+                nxt = self._history[idx]
             except IndexError:  # Haven't generated this number yet
-                nxt = next(self.generator)
+                nxt = next(self._generator)
             yield nxt
 
     def __contains__(self, number):
-        if not self.history or number > self.history[-1]:
+        if not self._history or number > self._history[-1]:
             # We haven't generated numbers up to the number under test yet, so
             # keep generating them until we have.  If we generate a number
             # equal to the number under test, we know it's in the sequence; if
             # we pass it, we know it isn't.
-            return number == next(n for n in self.generator if n >= number)
+            return number == next(n for n in self._generator if n >= number)
         else:
-            return number in self.history
+            return number in self._history
 
     def __getitem__(self, key):
         if isinstance(key, slice):
@@ -96,10 +96,10 @@ class MonatonicIncreasingSequence(abc.Container, abc.Iterable):
         else:
             stop = key + 1
 
-        if stop > len(self.history):
-            consume(islice(self.generator, stop - len(self.history)))
+        if stop > len(self._history):
+            consume(islice(self._generator, stop - len(self._history)))
 
-        return self.history[key]
+        return self._history[key]
 
     def range(self, *args):
         # Emulate the interface to islice and the like.
