@@ -54,7 +54,7 @@ class OrderedSet(abc.MutableSequence):
             self._obj_counts[item] -= 1
 
 
-class MonatonicIncreasingSequence(abc.Container, abc.Iterable):
+class Sequence(abc.Iterable):
     def __init__(self, generator):
         self._history = OrderedSet()
         self._generator = self._storing_generator(generator)
@@ -80,16 +80,6 @@ class MonatonicIncreasingSequence(abc.Container, abc.Iterable):
                 nxt = next(self._generator)
             yield nxt
 
-    def __contains__(self, number):
-        if not self._history or number > self._history[-1]:
-            # We haven't generated numbers up to the number under test yet, so
-            # keep generating them until we have.  If we generate a number
-            # equal to the number under test, we know it's in the sequence; if
-            # we pass it, we know it isn't.
-            return number == next(n for n in self._generator if n >= number)
-        else:
-            return number in self._history
-
     def __getitem__(self, key):
         if isinstance(key, slice):
             stop = key.stop
@@ -100,6 +90,18 @@ class MonatonicIncreasingSequence(abc.Container, abc.Iterable):
             consume(islice(self._generator, stop - len(self._history)))
 
         return self._history[key]
+
+
+class MonatonicIncreasingSequence(Sequence, abc.Container):
+    def __contains__(self, number):
+        if not self._history or number > self._history[-1]:
+            # We haven't generated numbers up to the number under test yet, so
+            # keep generating them until we have.  If we generate a number
+            # equal to the number under test, we know it's in the sequence; if
+            # we pass it, we know it isn't.
+            return number == next(n for n in self._generator if n >= number)
+        else:
+            return number in self._history
 
     def range(self, *args):
         # Emulate the interface to islice and the like.
