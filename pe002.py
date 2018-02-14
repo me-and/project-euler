@@ -24,4 +24,4 @@ if __name__ == '__main__':
         limit = 4000000
 
     print(sum(takewhile(lambda x: x < limit,
-                        (n for n in fibonacci() if n % 2 == 0))))
+                        (n for n in fibonacci if n % 2 == 0))))

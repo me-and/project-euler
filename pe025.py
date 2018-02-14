@@ -39,7 +39,7 @@ if __name__ == '__main__':
 
     goal = 10 ** (digits - 1)
 
-    for i, f in enumerate(fibonacci(), 1):
+    for i, f in enumerate(fibonacci, 1):
         if f >= goal:
             print(i)
             break
