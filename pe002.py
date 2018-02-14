@@ -11,7 +11,6 @@ By considering the terms in the Fibonacci sequence whose values do not exceed
 four million, find the sum of the even-valued terms.
 '''
 
-from itertools import takewhile
 from sys import argv
 
 from fibonacci import fibonacci
@@ -23,5 +22,4 @@ if __name__ == '__main__':
     except IndexError:
         limit = 4000000
 
-    print(sum(takewhile(lambda x: x < limit,
-                        (n for n in fibonacci if n % 2 == 0))))
+    print(sum(n for n in fibonacci.range(limit - 1) if n % 2 == 0))
