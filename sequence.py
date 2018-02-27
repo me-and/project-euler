@@ -74,6 +74,10 @@ class Sequence(abc.Iterable):
         thread safe.
         '''
         for idx in count():
+            # Verified with multiple runs of pe069 that this try/except pattern
+            # is approximately 33% faster than an if-test based pattern that
+            # checks the length of self._history to see if a new value needs to
+            # be generated.
             try:
                 nxt = self._history[idx]
             except IndexError:  # Haven't generated this number yet
