@@ -10,7 +10,8 @@ Find the smallest cube for which exactly five permutations of its digits are
 cube.
 '''
 
-from itertools import permutations
+from itertools import count, permutations
+from math import factorial
 from sys import argv
 
 from polygons import cubes
@@ -25,10 +26,20 @@ def count_cube_permutations(number):
     return len(set(string for string in permutations(str(number)) if string[0] != '0' and int(''.join(string)) in cubes))
 
 
+def inverse_factorial(num):
+    '''Smallest x such that x! >= num'''
+    return next(x for x in count(1) if factorial(x) >= num)
+
+
 if __name__ == '__main__':
     try:
         target = int(argv[1])
     except IndexError:
         target = 5
 
-    print(next(number for number in cubes if count_cube_permutations(number) == target))
+    # To avoid checking cubes that are clearly too small, work out the minimum
+    # before which there are insufficient digits to hit the requisite number of
+    # permutations.
+    start_digits = inverse_factorial(target)
+
+    print(next(number for number in cubes.range(10 ** (start_digits - 1), None) if count_cube_permutations(number) == target))
