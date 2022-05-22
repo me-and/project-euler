@@ -106,6 +106,5 @@ if __name__ == '__main__':
     with open(FILE_PATH) as roman_file:
         for line in roman_file:
             roman = line.strip()
-            ideal_roman = integer_to_roman(roman_to_integer(roman))
             difference += len(roman) - len(idealize(roman))
     print(difference)
