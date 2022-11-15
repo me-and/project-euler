@@ -69,6 +69,17 @@ INTEGER_CONVERSIONS = ((1000, 'M'),
 FILE_PATH = os.path.join('pe089', 'roman.txt')
 
 
+def roman_to_integer_iter(string):
+    while string:
+        try:
+            yield ROMAN_SUBTRACTIVE_PAIRS[string[:2]]
+        except KeyError:
+            yield ROMAN_DIGITS[string[0]]
+            string = string[1:]
+        else:
+            string = string[2:]
+
+
 def roman_to_integer(string):
     '''Convert a Roman numeral string to an integer.
 
@@ -76,35 +87,29 @@ def roman_to_integer(string):
     may produce unintuitive results if given invalid Roman numerals (e.g. 'IL'
     is parsed as 51, not 49; the standard valid way to write 49 is XLIX).
     '''
-    integer = 0
-    while string:
-        if string[:2] in ROMAN_SUBTRACTIVE_PAIRS:
-            integer += ROMAN_SUBTRACTIVE_PAIRS[string[:2]]
-            string = string[2:]
-        else:
-            integer += ROMAN_DIGITS[string[0]]
-            string = string[1:]
-    return integer
+    return sum(roman_to_integer_iter(string))
 
+
+def integer_to_roman_iter(integer):
+    for test_int, roman in INTEGER_CONVERSIONS:
+        while integer >= test_int:
+            yield roman
+            integer -= test_int
 
 def integer_to_roman(integer):
     '''Convert an integer to a minimal Roman numeral.'''
-    string = ''
-    for test_int, roman in INTEGER_CONVERSIONS:
-        while integer >= test_int:
-            string += roman
-            integer -= test_int
-    return string
+    return ''.join(integer_to_roman_iter(integer))
 
 
 def idealize(roman):
     return integer_to_roman(roman_to_integer(roman))
 
 
+def line_difference(line):
+    roman = line.strip()
+    return len(roman) - len(idealize(roman))
+
+
 if __name__ == '__main__':
-    difference = 0
     with open(FILE_PATH) as roman_file:
-        for line in roman_file:
-            roman = line.strip()
-            difference += len(roman) - len(idealize(roman))
-    print(difference)
+        print(sum(line_difference(line) for line in roman_file))
